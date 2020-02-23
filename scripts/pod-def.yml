@@ -1,0 +1,19 @@
+apiVersion: v1
+
+kind: Pod
+
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+    mylabel: demo-purposes
+    location: dev
+    aka: crash-dummy
+  
+spec:
+  containers:
+  - image: mitchd/basic-svc
+    name: mysvc
+    ports:
+    - containerPort: 8083
+      protocol: TCP
