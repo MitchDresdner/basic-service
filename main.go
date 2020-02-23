@@ -39,6 +39,18 @@ func main() {
 	msg := fmt.Sprintf("Basic service running: http://%s", addr)
 	log.Println(msg)
 
+	host, err := os.Hostname()
+	if err != nil {
+		log.Fatal("Unable to determine Hostname " + err.Error())
+		return
+	}
+
+	ip, err := externalIP()
+	if err != nil {
+		log.Fatal("Unable to determine IP Address " + err.Error())
+		return
+	}
+
 	// API handlers
 	http.HandleFunc("/info", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, helpText)
@@ -46,19 +58,7 @@ func main() {
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 
-		log.Println("Performing Health check")
-
-		host, err := os.Hostname()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		ip, err := externalIP()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		log.Println("Performing health check")
 
 		health := Health{host, ip}
 
