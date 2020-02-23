@@ -8,4 +8,4 @@ The default port is configured for **8083**
 
 Build: docker build -t mitchd/basic-svc .
 
-Run:   docker run -itd --expose=8083 --name mysvc mitchd/basic-svc
+Run:   docker run -itd -p 8083:8083 --name mysvc mitchd/basic-svc
