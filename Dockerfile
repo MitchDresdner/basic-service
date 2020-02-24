@@ -3,7 +3,7 @@ FROM golang
 ADD . /go/src/github.com/mjd/basic-svc
 
 # Build our app for Linux
-RUN go install github.com/mjd/basic-svc && rm -rf github.com/mjd/basic-svc/src
+RUN go install github.com/mjd/basic-svc && rm -rf /go/src
 
 # Run the basic-svc command by default when the container starts.
 ENTRYPOINT /go/bin/basic-svc
