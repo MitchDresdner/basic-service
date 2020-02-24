@@ -1,0 +1,24 @@
+apiVersion: v1
+
+kind: Pod
+
+metadata:
+  name: basic-svc
+  labels:
+    app: basic-svc-app
+    mylabel: demo-purposes
+    location: dev
+    aka: crash-dummy
+
+spec:
+  containers:
+    - image: mitchd/basic-svc
+      name: mysvc
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: 8083
+        initialDelaySeconds: 15
+      ports:
+        - containerPort: 8083
+          protocol: TCP
