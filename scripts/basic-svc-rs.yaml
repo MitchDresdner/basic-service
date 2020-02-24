@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: basic-svc-replset-ctrl
+  labels:
+    app: basic-svc-app
+    env: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: basic-svc-app
+  template:
+    metadata:
+      labels:
+        app: basic-svc-app
+    spec:
+      containers:
+        - name: mysvc
+          image: mitchd/basic-svc
+          ports:
+            - containerPort: 8083

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basic-svc
+  labels:
+    app: basic-svc-app
+    mylabel: demo-purposes
+    location: demo-lab
+    aka: crash-dummy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: basic-svc-app
+  template:
+    metadata:
+      labels:
+        app: basic-svc-app
+    spec:
+      containers:
+        - image: mitchd/basic-svc
+          name: mysvc
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8083
+            initialDelaySeconds: 15
+          ports:
+            - containerPort: 8083
+              protocol: TCP

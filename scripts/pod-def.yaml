@@ -9,7 +9,7 @@ metadata:
     mylabel: demo-purposes
     location: dev
     aka: crash-dummy
-  
+
 spec:
   containers:
   - image: mitchd/basic-svc
