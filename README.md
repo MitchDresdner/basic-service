@@ -1,8 +1,10 @@
 # basic-svc
 ### _A basic microservice which responds to GET requests for:_
+* /crash
 * /info (help)
 * /health
 * /version
+
 
 The default port is configured for **8083**
 
