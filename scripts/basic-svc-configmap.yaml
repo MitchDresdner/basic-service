@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  my-db-pw: tiger
+  my-db-user: scott
+kind: ConfigMap
+metadata:
+  name: myconfigmap
