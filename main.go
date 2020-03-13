@@ -19,12 +19,17 @@ const (
 	helpText = `
 Basic service provides the ability to check continuity the to your Service.
 In it's a basic form, you can determine whether you have a path to the
-service, it's Hostname and IP Address'
+service, it's Hostname and IP Address'. You can also force the errors below.
 
    Commands
    ========
    http :8083/health
    http :8083/version
+   http :8083/crash?errorType=[exit|throw|heap|cpu]
+	 exit  - container exits
+	 throw - throw an error but continue running
+	 heap  - induce a heap error
+	 cpu   - monopolize the cpu
 
 JSON messaging powered by: https://github.com/jakubroztocil/httpie
 `
@@ -51,10 +56,26 @@ func main() {
 		return
 	}
 
-	// API handlers
 	http.HandleFunc("/info", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, helpText)
 	})
+
+	http.HandleFunc("/crash", func(w http.ResponseWriter, r *http.Request) {
+
+		keys, ok := r.URL.Query()["errorType"]
+
+		if !ok || len(keys[0]) < 1 {
+			log.Println("Url Param 'key' is missing")
+			return
+		}
+
+		// Query()["errorType"] will return an array of items,
+		// we only want the single item.
+		errorType := keys[0]
+
+		strategy(string(errorType))
+	})
+
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 
