@@ -8,7 +8,9 @@
 
 The default port is configured for **8083**
 
-Build: docker build -t mitchd/basic-svc .
+~~Build: docker build -t mitchd/basic-svc .~~   # switched to experimental buildx
+
+Local Build: docker buildx build --platform linux/amd64 -t mitchd/basic-svc .
 
 Run:   docker run -itd -p 8083:8083 --name mysvc mitchd/basic-svc
 
