@@ -1,7 +1,7 @@
-# FROM --platform=$BUILDPLATFORM golang AS build
-FROM --platform=$TARGETPLATFORM golang AS build
+FROM golang
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
+# Add some extra debug to the output
 RUN echo "Building on $BUILDPLATFORM, for $TARGETPLATFORM"
 
 ADD . /go/src/github.com/mjd/basic-svc
