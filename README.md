@@ -8,11 +8,14 @@
 
 The default port is configured for **8083**
 
-~~Build: docker build -t mitchd/basic-svc .~~   # switched to experimental buildx
-
-Local Build: docker buildx build --platform linux/amd64 -t mitchd/basic-svc .
+Build: docker build -t mitchd/basic-svc .
 
 Run:   docker run -itd -p 8083:8083 --name mysvc mitchd/basic-svc
+
+armv71 Build: 
+  docker buildx use nix-arm
+  docker buildx build --platform linux/arm/v7 -t mitchd/basic-svc-armv71 -f Dockerfile-armv71 .
+
 
 ---
 
@@ -24,10 +27,3 @@ Attempting to build multiple cross platform builds resulted in an error
 
   docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --push -t mitchd/basic-svc-amd64-arm64-armv7  .
   
-  ERROR exporting to image
-  
-Individual builds completed successfully when built locally, haven't tested results after promoting to github to trigger automatic build yet.
-
-  docker buildx build --platform linux/amd64  --push -t mitchd/basic-svc-amd64  .
-  docker buildx build --platform linux/arm64  --push -t mitchd/basic-svc-arm64  .
-  docker buildx build --platform linux/arm/v7 --push -t mitchd/basic-svc-armv7  .

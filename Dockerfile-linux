@@ -1,0 +1,16 @@
+# FROM --platform=$BUILDPLATFORM golang AS build
+FROM --platform=$TARGETPLATFORM golang AS build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "Building on $BUILDPLATFORM, for $TARGETPLATFORM"
+
+ADD . /go/src/github.com/mjd/basic-svc
+
+# Build our app for Linux - CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 arm32v7
+RUN go install github.com/mjd/basic-svc && rm -rf /go/src
+
+# Run the basic-svc command by default when the container starts.
+ENTRYPOINT /go/bin/basic-svc
+
+# Document that the service listens on port 8083
+EXPOSE 8083

@@ -1,0 +1,11 @@
+# docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t mitchd/multi:latest -f Dockerfile-multi --push .
+# see: https://www.docker.com/blog/multi-arch-images/
+FROM ubuntu
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+RUN echo "Building on $BUILDPLATFORM, for $TARGETPLATFORM "
+
+RUN apt-get update && apt-get install -y curl
+WORKDIR /src
+COPY . .
