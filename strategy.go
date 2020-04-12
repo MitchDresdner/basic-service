@@ -30,7 +30,8 @@ func strategy(errType string) {
 func runFib() {
 	f := fibonacci()
 	j := 0
-	for i := 0; i < 100000000000; i++ {
+	var i int64 = 0
+	for  ; i < 100000000000; i++ {
 		j = f()
 	}
 	fmt.Println(j)
