@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basic-svc
+  labels:
+    app: basic-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basic-svc
+  template:
+    metadata:
+      labels:
+        app: basic-svc
+    spec:
+      containers:
+        - name: basic-svc-armv7
+          image: mitchd/basic-svc-linux
+          ports:
+            - containerPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+spec:
+  selector:
+    app: basic-svc
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8083
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: basic-svc-ingress
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: demo-service
+              servicePort: 80
